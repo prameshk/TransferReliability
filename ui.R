@@ -14,22 +14,21 @@ ui <- fluidPage(
   # Setup the page title
   pageWithSidebar(
     #Name of the header panel
-   # headerPanel('Public Transit Transfer Reliability Analysis Tool', windowTitle = "Transfer Reliability"),
-    titlePanel("title panel"),
+    headerPanel('Public Transit Transfer Reliability Analysis Tool', windowTitle = "Transfer Reliability"),
     # These options (dropdown menus) will come in the sidebar.
     sidebarPanel(
       selectInput('date', 'Available dates', choices= c("2017-02-06")), 
-      radioButtons('ptime','Select time', c('All day', 'am peak', 'am non-peak', 'pm peak', 'pm non-peak')),
+      radioButtons('ptime','Select time', c('All day', 'AM peak', 'AM non-peak', 'PM peak', 'PM non-peak')),
       radioButtons('method','Select analysis method', c('System-level', 'Route-level')),
       
       conditionalPanel(
         condition = "input.method == 'System-level'",
-        radioButtons('routes','Select type', c('All routes for analysis', 'Two routes only')), 
+        radioButtons('routes','Select type', c('All routes', 'Two routes only')), 
         conditionalPanel(
           condition = "input.routes == 'Two routes only'",
-          selectInput('routeFrom', 'Select the route from', choices= unique(transferData$routeFrom), selected = 19),
+          selectInput('routeFrom', 'Select route from', choices= unique(transferData$routeFrom), selected = 19),
           uiOutput("fromDir"),
-          selectInput('routeTo', 'Select the route to', choices= unique(transferData$route_short_id), selected = 5),
+          selectInput('routeTo', 'Select route to', choices= unique(transferData$route_short_id), selected = 5),
           uiOutput("toDir"),
           uiOutput("hmap")
         )
@@ -39,7 +38,7 @@ ui <- fluidPage(
         ),
       conditionalPanel(
         condition = "input.method == 'Route-level'",
-        selectInput('route', 'Select the route #', choices= unique(transferData$route_short_id)),
+        selectInput('route', 'Select route #', choices= unique(transferData$route_short_id)),
         uiOutput("dir"), 
         uiOutput("heats")
         )

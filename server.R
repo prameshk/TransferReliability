@@ -11,13 +11,13 @@ server <- function(input, output, session) {
     if(input$ptime == 'All day'){
       transferData
     }
-    else if (input$ptime == 'pm peak'){
+    else if (input$ptime == 'PM peak'){
       transferData[transferData$stopFromSchedDeptTime >= 54000 & transferData$stopFromSchedDeptTime <= 66600, ]
     }
-    else if (input$ptime == 'am peak'){
+    else if (input$ptime == 'AM peak'){
       transferData[transferData$stopFromSchedDeptTime >= 21600 & transferData$stopFromSchedDeptTime <= 32400, ]
     }
-    else if (input$ptime == 'am non-peak'){
+    else if (input$ptime == 'AM non-peak'){
       transferData[(transferData$stopFromSchedDeptTime >= 0 & transferData$stopFromSchedDeptTime <= 21600) | (transferData$stopFromSchedDeptTime >= 34200 & transferData$stopFromSchedDeptTime <= 43200), ]
     }
     else {
@@ -33,7 +33,7 @@ server <- function(input, output, session) {
   observeEvent(input$method, {
     if (input$method == 'System-level'){
       observeEvent(input$routes, {
-        if(input$routes == 'All routes for analysis'){
+        if(input$routes == 'All routes'){
           trans  <-  reactive({
             t <- as.data.frame(table(selectedData()$transfer))
             colnames(t) <- c('group', 'Freq')
